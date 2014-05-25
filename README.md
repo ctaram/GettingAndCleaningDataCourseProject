@@ -60,7 +60,7 @@ activity name
 Final activity dataset is created by ordering the rows of the dataset first by volunteer number and then by activity number
 
 =============================================================================================
-### Part 4: Loop for building the human activity dataset     
+### Part 4: Writing the clean dataset to workspace     
 =============================================================================================
 Finally writing the final dataset to the working directory
 
