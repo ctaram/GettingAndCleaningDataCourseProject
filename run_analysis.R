@@ -1,8 +1,5 @@
-GettingAndCleaningDataCourseProject
-===================================
-
 #############################################################################################
-##  CLeaning the Human Activity Recognition Using Smartphones Dataset                       #
+##  CLeaning the Human Activity Recognition Dataset's                                       #
 ##  Version: 1.0                                                                            # 
 ##  Author: Sitaram Tadepalli                                                               #
 #############################################################################################
