@@ -64,4 +64,4 @@ Final activity dataset is created by ordering the rows of the dataset first by v
 =============================================================================================
 Finally writing the final dataset to the working directory
 
-### Please refer to copybook.MD for the list of variable names,feature names and activity names used in the program. 
+### Please refer to codebook.MD for the list of variable names,feature names and activity names used in the program. 
