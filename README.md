@@ -1,136 +1,75 @@
-GettingAndCleaningDataCourseProject
-===================================
+=============================================================================================
+#   Getting and Cleaning Data - Course Project
+==  R Program for CLeaning the Human Activity Dataset                       
+==  Version: 1.0                                                                             
+==  Author: Sitaram Tadepalli                                                               
+=============================================================================================
 
-#############################################################################################
-##  CLeaning the Human Activity Recognition Using Smartphones Dataset                       #
-##  Version: 1.0                                                                            # 
-##  Author: Sitaram Tadepalli                                                               #
-#############################################################################################
+=============================================================================================
+## Part 1: Merging Training and Test Datasets to form one Full Dataset                       =     
+=============================================================================================
 
-#############################################################################################
-# Part 1: Merging Training and Test Datasets to form one Full Dataset                       #     
-#############################################################################################
+In the Part 1 of the program we read the Training datasets and Test datasets into R
+We will consider three datasets for Training they are 
+* subject_train.txt
+* X_train.txt
+* Y_train.txt
 
-# Read the Training datasets into R
+Three datasets are considered from Test dataset
+* subject_test.txt
+* X_test.txt
+* Y_test.txt
 
-subjectTrain <- read.table("./UCI HAR Dataset/train/subject_train.txt",sep="")
-xTrain <- read.table("./UCI HAR Dataset/train/X_train.txt",sep="")
-yTrain <- read.table("./UCI HAR Dataset/train/y_train.txt",sep="")
+We ignore the Inertial Signals folder as it does not provide any relevant information for our
+analysis
 
-#############################################################################################
-# Note that above Three training data sets are having 7352 observations each. 
-# In other sense all of them have same number of rows.
-#   subjectTrain has 7352 observations and 1 variable (Subject number)
-#   xTrain has 7352 observations and 561 variables
-#   yTrain has 7352 observations and 1 variable (Activity Names)
-#############################################################################################
+Note that above Three training data sets are having 7352 observations each. In other sense all of them 
+have same number of rows.
+* subjectTrain has 7352 observations and 1 variable (Subject number)
+* xTrain has 7352 observations and 561 variables
+* yTrain has 7352 observations and 1 variable (Activity Names)
 
-# Column Binding the Training Datasets to create one Full Training Data set
+Note that above Three test data sets are having 2947 observations each. In other sense all of them have
+same number of rows.
+* subjectTest has 2947 observations and 1 variable (Subject number)
+* xTest has 2947 observations and 561 variables
+* yTest has 2947 observations and 1 variable (Activity Names)
 
-fullTrainingDataset <- cbind(subjectTrain,yTrain,xTrain)  # This will have 7352 observations & 563 variables
+We will then column bind the Training/Test Datasets to create one Full Training/Test Data set.Next we row bind
+the fullTrainingDataset and fullTestDataset to create a Training Test Dataset
 
-# Read the Test datasets into R
+=============================================================================================
+## Part 2: Cleaning the Activity and Features dataset to convert them to descriptive names  =     
+=============================================================================================
 
-subjectTest <- read.table("./UCI HAR Dataset/test/subject_test.txt",sep="")
-xTest <- read.table("./UCI HAR Dataset/test/X_test.txt",sep="")
-yTest <- read.table("./UCI HAR Dataset/test/y_test.txt",sep="")
+Load the activity Dataset into R and perform cleaning of the activity names to make then more desctiptive
+We will remove all the underscores and convert them to lower case 
 
-#############################################################################################
-# Note that above Three test data sets are having 2947 observations each. 
-# In other sense all of them have same number of rows.
-#   subjectTest has 2947 observations and 1 variable (Subject number)
-#   xTest has 2947 observations and 561 variables
-#   yTest has 2947 observations and 1 variable (Activity Names)
-#############################################################################################
+Cleaning the Features Dataset and replacing the feature names with meaning full names.Here we remove the underscore 
+and make the variables meaningfull for the X,Y,Z Axial observations.
 
-# Column Binding the Test Datasets to create one Full Test Data set
+We also calculate a Numeric vector for variables having Mean() and Std().Note that we have to capture only the 
+variables which represent the measurement of mean and std. we have to ignore the variables which are not mean variables
+like meanFreq and angles
 
-fullTestDataset <- cbind(subjectTest,yTest,xTest)  # This will have 2947 observations & 563 variables
+=============================================================================================
+## Part 3: Loop for building the human activity dataset     
+=============================================================================================
 
-# Row Binding the fullTrainingDataset and fullTestDataset to create a Training Test Dataset
+========================================================
+= Loop for building the human activity dataset
+========================================================
 
-trainingTestDataset <- rbind(fullTrainingDataset,fullTestDataset) # Creates 10299 obs & 563 Variables
+Here we loop with-in the Activity dataset to create average of all activities performed by a subject
+We Merge the activities dataset and the Human activity dataset for establishing the mapping between activity number and 
+activity name
 
-# Loading and Cleaning the activity Dataset 
+Final activity dataset is created by ordering the rows of the dataset first by volunteer number and then by activity number
 
-activities <- read.table("./UCI HAR Dataset/activity_labels.txt",sep="")
-names(activities) <- c("activityNumber","activityName")
-activities$activityName <- gsub("_",".",activities$activityName)
-activities$activityName <- tolower(activities$activityName)
+=============================================================================================
+## Part 4: Loop for building the human activity dataset     
+=============================================================================================
 
-# Cleaning Features Dataset and Creating a clean feature names variables
+Finally writing the final dataset to the working directory
 
-# Reading features text file
-features <- read.table("./UCI HAR Dataset/features.txt",sep="")
-featureV2 <- features$V2
-featureV2 <- as.character(featureV2)
-featureNames <- c("volunteerNumber","activityNumber",featureV2)
-
-#############################################################################################
-# calculating the Numeric vector for variables having Mean() and Std()
-# Note we have to capture only the variables which represent the measurement of mean and std
-# we have to ignore the variables which are not mean like meanFreq and angles
-#############################################################################################
-
-meanStdSelection <- grep("volunteerNumber|activityNumber|mean\\(\\)|std\\(\\)",featureNames)
-ignoreFreqMean <- grep("meanFreq|gravityMean|tBodyAccMean|tBodyAccJerkMean|tBodyGyroMean|
-tBodyGyroJerkMean",featureNames)   # Ignore the variables meanFreq
-ignoreFreqMean <- ignoreFreqMean * c(-1)           # both mean and meanFreq
-
-# Cleaning featureNames with descriptive names. Here we remove the underscore and make the
-# variables meaningfull for the X,Y,Z Axial observations.
-
-featureNames <- gsub("-X","OfAxialX",featureNames)
-featureNames <- gsub("-Y","OfAxialY",featureNames)
-featureNames <- gsub("-Z","OfAxialZ",featureNames)
-
-featureNames <- gsub("\\(\\)","",featureNames)
-featureNames <- gsub("-m",".M",featureNames)
-featureNames <- gsub("-s","S",featureNames)
-
-# Reassigning the names to the trainingTestData set
-names(trainingTestDataset) <- featureNames
-
-# Subsetting the traingingTestDataset for variables with mean() and std() & ignoring unwanted Cols
-trainingTestDataset <- trainingTestDataset[,meanStdSelection]
-
-#############################################################################################
-# Create a activity dataset by ignoring the variables which are not mean values             
-#############################################################################################
-
-# ads = Activity Dataset
-ads <- trainingTestDataset[,ignoreFreqMean]
-
-########################################################
-# Loop for building the human activity dataset
-########################################################
-
-# hads = Human Activity Dataset
-hads <- data.frame() #creates an empty data frame
-
-for (i in 1:30)
-{
-  for (j in 1:6)
-  {
-    # iads = Intermediate activity dataset
-    iads <- ads[(ads$volunteerNumber== i & ads$activityNumber == j),]
-    meanOfAds <- sapply(iads,mean)  # Find mean of intermediate activity dataset
-    hads <- rbind(hads,c(i,j,meanOfAds[3:68]))  
-  }
-}
-
-# Reassigning the names to the human activity dataset
-names(hads) <- names(ads)
-
-# Merging the activities dataset and the Human activity dataset for establishing the mapping
-# between activity number and activity name
-# mhads = merged human activity dataset
-mhads <- merge(activities,hads,by.X="activityNumber",by.Y="activityNumber",all=TRUE,
-               sort=TRUE,row.names=FALSE)
-orderOfMhads <- order(mhads$volunteerNumber,mhads$activityNumber) # Order the dataset
-finalDataset <- mhads[orderOfMhads,]
-
-# Writing the final dataset to the working directory
-write.table(finalDataset, file = "finalDataset.txt", sep = ",", col.names = TRUE,row.names=FALSE)
-
-## All done ..... Peace !!!!!!!!!!
+## Please refer to copybook.MD for the list of variable names,feature names and activity names used in the program. 
