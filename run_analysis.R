@@ -48,6 +48,10 @@ fullTestDataset <- cbind(subjectTest,yTest,xTest)  # This will have 2947 observa
 
 trainingTestDataset <- rbind(fullTrainingDataset,fullTestDataset) # Creates 10299 obs & 563 Variables
 
+#############################################################################################
+# Part 2: Cleaning the Activity and Features dataset to convert them to descriptive names  =     
+#############################################################################################  
+
 # Loading and Cleaning the activity Dataset 
 
 activities <- read.table("./UCI HAR Dataset/activity_labels.txt",sep="")
@@ -99,7 +103,7 @@ trainingTestDataset <- trainingTestDataset[,meanStdSelection]
 ads <- trainingTestDataset[,ignoreFreqMean]
 
 ########################################################
-# Loop for building the human activity dataset
+# Part 3: Loop for building the human activity dataset
 ########################################################
 
 # hads = Human Activity Dataset
@@ -127,7 +131,10 @@ mhads <- merge(activities,hads,by.X="activityNumber",by.Y="activityNumber",all=T
 orderOfMhads <- order(mhads$volunteerNumber,mhads$activityNumber) # Order the dataset
 finalDataset <- mhads[orderOfMhads,]
 
-# Writing the final dataset to the working directory
+#############################################################################################
+# Part 4: Writing the final dataset to the working directory                       #     
+#############################################################################################
+
 write.table(finalDataset, file = "finalDataset.txt", sep = ",", col.names = TRUE,row.names=FALSE)
 
 ## All done ..... Peace !!!!!!!!!!
