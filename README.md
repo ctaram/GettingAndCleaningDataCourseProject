@@ -1,14 +1,13 @@
 =============================================================================================
 #   Getting and Cleaning Data - Course Project
-==  R Program for CLeaning the Human Activity Dataset                       
-==  Version: 1.0                                                                             
-==  Author: Sitaram Tadepalli                                                               
+R Program for CLeaning the Human Activity Dataset                       
+Version: 1.0                                                                             
+Author: Sitaram Tadepalli                                                               
 =============================================================================================
 
 =============================================================================================
-## Part 1: Merging Training and Test Datasets to form one Full Dataset                       =     
+### Part 1: Merging Training and Test Datasets to form one Full Dataset              
 =============================================================================================
-
 In the Part 1 of the program we read the Training datasets and Test datasets into R
 We will consider three datasets for Training they are 
 * subject_train.txt
@@ -39,9 +38,8 @@ We will then column bind the Training/Test Datasets to create one Full Training/
 the fullTrainingDataset and fullTestDataset to create a Training Test Dataset
 
 =============================================================================================
-## Part 2: Cleaning the Activity and Features dataset to convert them to descriptive names  =     
+### Part 2: Cleaning the Activity and Features dataset to convert them to descriptive names      
 =============================================================================================
-
 Load the activity Dataset into R and perform cleaning of the activity names to make then more desctiptive
 We will remove all the underscores and convert them to lower case 
 
@@ -53,13 +51,8 @@ variables which represent the measurement of mean and std. we have to ignore the
 like meanFreq and angles
 
 =============================================================================================
-## Part 3: Loop for building the human activity dataset     
+### Part 3: Loop for building the human activity dataset     
 =============================================================================================
-
-========================================================
-= Loop for building the human activity dataset
-========================================================
-
 Here we loop with-in the Activity dataset to create average of all activities performed by a subject
 We Merge the activities dataset and the Human activity dataset for establishing the mapping between activity number and 
 activity name
@@ -67,9 +60,8 @@ activity name
 Final activity dataset is created by ordering the rows of the dataset first by volunteer number and then by activity number
 
 =============================================================================================
-## Part 4: Loop for building the human activity dataset     
+### Part 4: Loop for building the human activity dataset     
 =============================================================================================
-
 Finally writing the final dataset to the working directory
 
-## Please refer to copybook.MD for the list of variable names,feature names and activity names used in the program. 
+### Please refer to copybook.MD for the list of variable names,feature names and activity names used in the program. 
